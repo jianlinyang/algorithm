@@ -7,7 +7,7 @@ package newcode;
  */
 public class Solution1 {
     /**
-     * 二维数组中的查找
+     * 1二维数组中的查找
      *
      * @param target 查找对象
      * @param array  被查找数组
@@ -30,10 +30,32 @@ public class Solution1 {
         return false;
     }
 
+    /**
+     * 2.替换空格
+     *
+     * @param str 输入字符串
+     * @return result
+     */
+    public String replaceSpace(StringBuffer str) {
+        int length = str.length();
+        int i = 0;
+        while (i < length) {
+            if (' ' == str.charAt(i)) {
+                str.replace(i, i + 1, "%20");
+                length = length + 2;
+            }
+            i++;
+        }
+        return str.toString();
+    }
+
     public static void main(String[] args) {
-        int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
         Solution1 solution1 = new Solution1();
-        boolean b = solution1.find(3, arr1);
-        System.out.println(b);
+        int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
+        String s = " a b";
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(s);
+        stringBuffer.replace(0,1,"%20");
+        System.out.println(stringBuffer);
     }
 }
