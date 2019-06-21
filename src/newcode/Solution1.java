@@ -207,8 +207,5 @@ public class Solution1 {
         listNode.next = listNode2;
         listNode2.next = listNode3;
         int[] arr2 = {6, 1, 2, 3, 4, 5};
-        int i = solution1.JumpFloorII(3
-        );
-        System.out.println(i);
     }
 }
