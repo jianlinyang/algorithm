@@ -1,9 +1,6 @@
 package newcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yang
@@ -56,7 +53,7 @@ public class Solution1 {
 
 
     /**
-     * 从头到尾打印链表
+     * 3.从头到尾打印链表
      *
      * @param listNode {@link ListNode}
      * @return arr
@@ -78,7 +75,7 @@ public class Solution1 {
     }
 
     /**
-     * 重建二叉树
+     * 4.重建二叉树
      */
     private Map<Integer, Integer> indexForInOrders = new HashMap<>();
 
@@ -101,6 +98,81 @@ public class Solution1 {
         return root;
     }
 
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+
+    /**
+     * 5.两个栈实现队列
+     *
+     * @param node node
+     */
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+    }
+
+    /**
+     * 6.旋转数组的最小数字
+     *
+     * @param array input
+     * @return int
+     */
+    public int minNumberInRotateArray(int[] array) {
+        if (array.length == 0) return 0;
+        int left = 0, right = array.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (array[right] >= array[mid]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return array[left];
+    }
+
+    /**
+     * 7.斐波那楔数列
+     * 0 1 1 2 3 5
+     *
+     * @param n 第n项
+     * @return int
+     */
+    public int Fibonacci(int n) {
+        if (n <= 1) return n;
+        int i = 0, j = 1;
+        while (n > 1) {
+            j = i + j;
+            i = j - i;
+            n--;
+        }
+        return j;
+    }
+
+    /**
+     * 8.跳台阶
+     *
+     * @param target n阶
+     * @return 跳法
+     */
+    public int JumpFloor(int target) {
+        if (target <= 2) return target;
+        int i = 1, j = 1;
+        while (target >= 2) {
+            j = i + j;
+            i = j - i;
+            target--;
+        }
+        return j;
+    }
 
     /**
      * 测试
@@ -116,7 +188,8 @@ public class Solution1 {
         ListNode listNode3 = new ListNode(5);
         listNode.next = listNode2;
         listNode2.next = listNode3;
-        solution1.printListFromTailToHead(listNode);
+        int[] arr2 = {6, 1, 2, 3, 4, 5};
+        int i = solution1.minNumberInRotateArray(arr2);
 
     }
 }
