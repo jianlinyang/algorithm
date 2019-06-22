@@ -193,6 +193,97 @@ public class Solution1 {
     }
 
     /**
+     * 10.二进制中1的个数
+     *
+     * @param n input
+     * @return num
+     */
+    public int NumberOf1(int n) {
+        int count = 0;
+        while (n != 0) {
+            n = n & (n - 1);
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * 11.数的整数次方
+     *
+     * @param base     底数
+     * @param exponent 指数
+     * @return res
+     */
+    public double Power(double base, int exponent) {
+        boolean flag = false;
+        double res = 1D;
+        if (exponent < 0) {
+            exponent = -exponent;
+            flag = true;
+        }
+        while (exponent > 0) {
+            res = res * base;
+            exponent--;
+        }
+        return flag ? 1 / res : res;
+    }
+
+    /**
+     * 12.调整数组顺序使奇数位于偶数前面
+     *
+     * @param array input
+     */
+    public void reOrderArray(int[] array) {
+        int even = 0;
+        for (int i = 0; i < array.length; i++) {
+            if ((array[i] & 1) == 0) {//偶数
+                even = i;
+                break;
+            }
+        }
+        int i = even;
+        while (i < array.length) {
+            if ((array[i] & 1) != 0) {
+                swap(array, even, i);
+                even++;
+            }
+            i++;
+        }
+    }
+
+    private void swap(int[] array, int s, int e) {
+        int tmp = array[e];
+        for (int i = e; i > s; i--) {
+            array[i] = array[i - 1];
+        }
+        array[s] = tmp;
+    }
+
+    /**
+     * 13.链表中第K个节点
+     *
+     * @param head {@link ListNode}
+     * @param k    倒数第k节点
+     * @return {@link ListNode}
+     */
+    public ListNode FindKthToTail(ListNode head, int k) {
+        if (head == null || k == 0) return null;
+        int count = 0;
+        LinkedList<ListNode> listNodes = new LinkedList<>();
+        while (head != null) {
+            listNodes.push(head);
+            count++;
+            head = head.next;
+        }
+        if (count < k) return null;
+        while (k > 1) {
+            listNodes.pop();
+            k--;
+        }
+        return listNodes.pop();
+    }
+
+    /**
      * 测试
      *
      * @param args args
@@ -207,5 +298,7 @@ public class Solution1 {
         listNode.next = listNode2;
         listNode2.next = listNode3;
         int[] arr2 = {6, 1, 2, 3, 4, 5};
+        solution1.reOrderArray(arr2);
+        System.out.println(arr2);
     }
 }
