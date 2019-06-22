@@ -7,7 +7,7 @@ import java.util.*;
  * @date 2019/6/19 23:27
  * 剑指offer 1-22
  */
-public class Solution1 {
+public class Solution {
     /**
      * 1二维数组中的查找
      *
@@ -284,12 +284,56 @@ public class Solution1 {
     }
 
     /**
+     * 14.反转链表
+     *
+     * @param head {@link ListNode}
+     * @return {@link ListNode}
+     */
+    public ListNode ReverseList(ListNode head) {
+        ListNode tmp;
+        ListNode pre = null;
+        while (head != null) {
+            tmp = head.next;
+            head.next = pre;
+            pre = head;
+            head = tmp;
+        }
+        return pre;
+    }
+
+    /**
+     * 15.合并两个排序的链表
+     *
+     * @param list1 {@link ListNode}
+     * @param list2 {@link ListNode}
+     * @return {@link ListNode}
+     */
+    public ListNode Merge(ListNode list1, ListNode list2) {
+        ListNode res = new ListNode(-1);
+        ListNode head = res;
+        while (list1 != null && list2 != null) {
+            if (list1.val < list2.val) {
+                res.next = list1;
+                res = res.next;
+                list1 = list1.next;
+            } else {
+                res.next = list2;
+                res = res.next;
+                list2 = list2.next;
+            }
+        }
+        if (list1 == null) res.next = list2;
+        if (list2 == null) res.next = list1;
+        return head.next;
+    }
+
+    /**
      * 测试
      *
      * @param args args
      */
     public static void main(String[] args) {
-        Solution1 solution1 = new Solution1();
+        Solution solution1 = new Solution();
         int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
         String s = " a b";
         ListNode listNode = new ListNode(3);
