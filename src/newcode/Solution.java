@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @author yang
  * @date 2019/6/19 23:27
- * 剑指offer 1-22
+ * 剑指offer
  */
 public class Solution {
     /**
@@ -442,13 +442,24 @@ public class Solution {
     }
 
     /**
-     * 从上往下打印二叉树
+     * 21.从上往下打印二叉树
+     *
      * @param root input
-     * @return
+     * @return {@link ArrayList}
      */
-//    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
-//
-//    }
+    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (root == null) return res;
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode poll = queue.poll();
+            res.add(poll.val);
+            if (poll.left != null) queue.offer(poll.left);
+            if (poll.right != null) queue.offer(poll.right);
+        }
+        return res;
+    }
 
 
     /**
