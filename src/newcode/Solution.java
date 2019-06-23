@@ -328,6 +328,130 @@ public class Solution {
     }
 
     /**
+     * 16.树的子结构
+     *
+     * @param root1 A
+     * @param root2 B
+     * @return 判断B是不是A的子结构
+     */
+    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) return false;
+        return isSubtree(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+    }
+
+    private boolean isSubtree(TreeNode r1, TreeNode r2) {
+        if (r2 == null) return true;
+        if (r1 == null) return false;
+        if (r1.val != r2.val) return false;
+        return isSubtree(r1.left, r2.left) && isSubtree(r1.right, r2.right);
+    }
+
+    /**
+     * 17.二叉树的镜像
+     *
+     * @param root input
+     */
+    public void Mirror(TreeNode root) {
+        if (root == null) return;
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        Mirror(root.left);
+        Mirror(root.right);
+    }
+
+    /**
+     * 18.顺时针打印矩阵
+     *
+     * @param matrix input
+     * @return {@link ArrayList}
+     */
+    public ArrayList<Integer> printMatrix(int[][] matrix) {
+        ArrayList<Integer> res = new ArrayList();
+        int i = 0, j = matrix[0].length, k = 0, l = matrix.length;
+        while (i < j && k < l) {
+            print(matrix, i++, j--, k++, l--, res);
+        }
+        return res;
+    }
+
+    private void print(int[][] matrix, int stRow, int enRow, int srCol, int enCol, ArrayList<Integer> list) {
+        for (int i = stRow; i < enRow; i++) {
+            list.add(matrix[srCol][i]);
+        }
+        for (int i = srCol + 1; i < enCol; i++) {
+            list.add(matrix[i][enRow - 1]);
+        }
+        if (srCol < enCol - 1) {
+            for (int i = enRow - 2; i >= stRow; i--) {
+                list.add(matrix[enCol - 1][i]);
+            }
+        }
+        if (stRow < enRow - 1) {
+            for (int i = enCol - 2; i >= srCol + 1; i--) {
+                list.add(matrix[i][stRow]);
+            }
+        }
+    }
+
+    private Stack<Integer> dataStack = new Stack<>();
+    private Stack<Integer> minStack = new Stack<>();
+
+    /**
+     * 19.包含min 的栈
+     *
+     * @param node input
+     */
+    public void push_(int node) {
+        dataStack.push(node);
+        minStack.push(minStack.isEmpty() ? node : Math.min(minStack.peek(), node));
+    }
+
+    public void pop_() {
+        dataStack.pop();
+        minStack.pop();
+    }
+
+    public int top() {
+        return dataStack.peek();
+    }
+
+    public int min() {
+        return minStack.peek();
+    }
+
+    /**
+     * 20.栈的压入弹出顺序
+     *
+     * @param pushA 压入顺序
+     * @param popA  弹出顺序
+     * @return 是否存在
+     */
+    public boolean IsPopOrder(int[] pushA, int[] popA) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        int i = 0, j = 0;
+        while (i < popA.length) {
+            stack.push(pushA[i]);
+            i++;
+            while (!stack.isEmpty() && stack.peek() == popA[j]) {
+                stack.pop();
+                j++;
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    /**
+     * 从上往下打印二叉树
+     * @param root input
+     * @return
+     */
+//    public ArrayList<Integer> PrintFromTopToBottom(TreeNode root) {
+//
+//    }
+
+
+    /**
      * 测试
      *
      * @param args args
@@ -339,10 +463,14 @@ public class Solution {
         ListNode listNode = new ListNode(3);
         ListNode listNode2 = new ListNode(4);
         ListNode listNode3 = new ListNode(5);
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.left = new TreeNode(2);
+        treeNode.right = new TreeNode(3);
         listNode.next = listNode2;
         listNode2.next = listNode3;
-        int[] arr2 = {6, 1, 2, 3, 4, 5};
-        solution1.reOrderArray(arr2);
-        System.out.println(arr2);
+        int[] arr2 = {1, 2, 3, 4, 5};
+        int[] arr3 = {4, 5, 3, 2, 1};
+
+        solution1.IsPopOrder(arr2, arr3);
     }
 }

@@ -1,2 +1,2 @@
 # algorithm
-算法练习
+剑指offer算法练习
