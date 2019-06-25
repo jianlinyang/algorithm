@@ -461,6 +461,57 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 22.二叉搜索树的后序遍历序列
+     *
+     * @param sequence input
+     * @return true/false
+     */
+    public boolean VerifySquenceOfBST(int[] sequence) {
+        if (sequence == null || sequence.length == 0)
+            return false;
+        return verify(sequence, 0, sequence.length - 1);
+    }
+
+    private boolean verify(int[] sequence, int first, int last) {
+        if (last - first <= 1) return true;
+        int curIndex = first;
+        int rootVal = sequence[last];
+        while (curIndex < last && sequence[curIndex] <= rootVal)
+            curIndex++;
+        for (int i = curIndex; i < last; i++) {
+            if (sequence[i] < rootVal) return false;
+        }
+        return verify(sequence, first, curIndex - 1) &&
+                verify(sequence, curIndex, last - 1);
+    }
+
+    /**
+     * 23.二叉树中和2为某一路径
+     *
+     * @param root   二叉树
+     * @param target 目标
+     * @return {@link ArrayList}
+     */
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+    Stack<Integer> stack = new Stack<>();
+
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        backTracking(root, target);
+        return res;
+    }
+
+    private void backTracking(TreeNode root, int target) {
+        if (root == null) return;
+        stack.push(root.val);
+        if (target == root.val && root.left == null && root.right == null) {
+            res.add(new ArrayList<>(stack));
+        }
+        target = target - root.val;
+        backTracking(root.left, target);
+        backTracking(root.right, target);
+        stack.pop();
+    }
 
     /**
      * 测试
