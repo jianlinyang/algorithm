@@ -514,6 +514,42 @@ public class Solution {
     }
 
     /**
+     * 24.复杂链表复制
+     *
+     * @param pHead input
+     * @return {@link RandomListNode}
+     */
+    public RandomListNode Clone(RandomListNode pHead) {
+        if (pHead == null) return null;
+        RandomListNode cur = pHead;
+        while (cur != null) {
+            RandomListNode randomListNode = new RandomListNode(cur.label);
+            randomListNode.next = cur.next;
+            cur.next = randomListNode;
+            cur = randomListNode.next;
+        }
+
+        cur = pHead;
+        while (cur != null) {
+            if (cur.random != null) {
+                RandomListNode random = cur.random;
+                cur.next.random = random.next;
+            }
+            cur = cur.next.next;
+        }
+
+        cur = pHead;
+
+        RandomListNode res = cur.next;
+        while (cur.next != null) {
+            RandomListNode next = cur.next;
+            cur.next = next.next;
+            cur = next;
+        }
+        return res;
+    }
+
+    /**
      * 测试
      *
      * @param args args
