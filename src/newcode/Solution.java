@@ -487,7 +487,7 @@ public class Solution {
     }
 
     /**
-     * 23.二叉树中和2为某一路径
+     * 23.二叉树中和为某一路径
      *
      * @param root   二叉树
      * @param target 目标
@@ -549,6 +549,68 @@ public class Solution {
         return res;
     }
 
+    private TreeNode pre = null;
+    private TreeNode head = null;
+
+    /**
+     * 25.二叉搜索树与双向链表
+     *
+     * @param pRootOfTree input
+     * @return {@link TreeNode}
+     */
+
+
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        inOrder(pRootOfTree);
+        return head;
+    }
+
+    private void inOrder(TreeNode node) {
+        if (node == null) return;
+        inOrder(node.left);
+        node.left = pre;
+        if (pre != null) pre.right = node;
+        pre = node;
+        if (head == null) head = node;
+        inOrder(node.right);
+    }
+
+
+    private ArrayList<String> ret = new ArrayList<>();
+
+    /**
+     * 26.字符串的排列
+     *
+     * @param str input
+     * @return {@link ArrayList}
+     */
+    public ArrayList<String> Permutation(String str) {
+        if (str.length() == 0)
+            return ret;
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        backtracking(chars, new boolean[chars.length], new StringBuilder());
+        return ret;
+    }
+
+    private void backtracking(char[] chars, boolean[] hasUsed, StringBuilder s) {
+        if (s.length() == chars.length) {
+            ret.add(s.toString());
+            return;
+        }
+        for (int i = 0; i < chars.length; i++) {
+            if (hasUsed[i])
+                continue;
+            if (i != 0 && chars[i] == chars[i - 1] && !hasUsed[i - 1]) /* 保证不重复 */
+                continue;
+            hasUsed[i] = true;
+            s.append(chars[i]);
+            backtracking(chars, hasUsed, s);
+            s.deleteCharAt(s.length() - 1);
+            hasUsed[i] = false;
+        }
+    }
+
     /**
      * 测试
      *
@@ -569,6 +631,6 @@ public class Solution {
         int[] arr2 = {1, 2, 3, 4, 5};
         int[] arr3 = {4, 5, 3, 2, 1};
 
-        solution1.IsPopOrder(arr2, arr3);
+        solution1.Permutation("abbc");
     }
 }
