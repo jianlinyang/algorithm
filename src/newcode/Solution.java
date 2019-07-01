@@ -244,14 +244,14 @@ public class Solution {
         int i = even;
         while (i < array.length) {
             if ((array[i] & 1) != 0) {
-                swap(array, even, i);
+                swap2(array, even, i);
                 even++;
             }
             i++;
         }
     }
 
-    private void swap(int[] array, int s, int e) {
+    private void swap2(int[] array, int s, int e) {
         int tmp = array[e];
         for (int i = e; i > s; i--) {
             array[i] = array[i - 1];
@@ -609,6 +609,82 @@ public class Solution {
             s.deleteCharAt(s.length() - 1);
             hasUsed[i] = false;
         }
+    }
+
+    /**
+     * 27.数组中次数超过一半的数字
+     *
+     * @param array input
+     * @return res
+     */
+    public int MoreThanHalfNum_Solution(int[] array) {
+        int majority = array[0];
+        int cnt = 0;
+        for (int i = 0; i < array.length; i++) {
+            cnt = array[i] == majority ? cnt + 1 : cnt - 1;
+            if (cnt == 0) {
+                majority = array[i];
+                cnt = 1;
+            }
+        }
+        cnt = 0;
+        for (int i : array) {
+            if (i == majority) {
+                cnt++;
+            }
+        }
+        return cnt > array.length / 2 ? majority : 0;
+    }
+
+    /**
+     * 28.最小K个数
+     *
+     * @param nums input
+     * @param k    num
+     * @return {@link ArrayList}
+     */
+    public ArrayList<Integer> GetLeastNumbers_Solution(int[] nums, int k) {
+        ArrayList<Integer> ret = new ArrayList<>();
+        if (k > nums.length || k <= 0)
+            return ret;
+        findKthSmallest(nums, k - 1);
+        /* findKthSmallest 会改变数组，使得前 k 个数都是最小的 k 个数 */
+        for (int i = 0; i < k; i++)
+            ret.add(nums[i]);
+        return ret;
+    }
+
+    public void findKthSmallest(int[] nums, int k) {
+        int l = 0, h = nums.length - 1;
+        while (l < h) {
+            int j = partition(nums, l, h);
+            if (j == k)
+                break;
+            if (j > k)
+                h = j - 1;
+            else
+                l = j + 1;
+        }
+    }
+
+    private int partition(int[] nums, int l, int h) {
+        int p = nums[l];     /* 切分元素 */
+        int i = l, j = h + 1;
+        while (true) {
+            while (i != h && nums[++i] < p) ;
+            while (j != l && nums[--j] > p) ;
+            if (i >= j)
+                break;
+            swap(nums, i, j);
+        }
+        swap(nums, l, j);
+        return j;
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int t = nums[i];
+        nums[i] = nums[j];
+        nums[j] = t;
     }
 
     /**
