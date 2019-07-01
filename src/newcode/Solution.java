@@ -707,6 +707,6 @@ public class Solution {
         int[] arr2 = {1, 2, 3, 4, 5};
         int[] arr3 = {4, 5, 3, 2, 1};
 
-        solution1.Permutation("abbc");
+        solution1.GetLeastNumbers_Solution(arr3, 3);
     }
 }
