@@ -688,6 +688,153 @@ public class Solution {
     }
 
     /**
+     * 29.连续数组的最大子串和
+     *
+     * @param array input
+     * @return res
+     */
+    public int FindGreatestSumOfSubArray(int[] array) {
+        if (array == null || array.length == 0) return -1;
+        int res = array[0], max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            max = Math.max(array[i] + max, array[i]);
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+
+    /**
+     * 30.整数中1个数
+     *
+     * @param n int
+     * @return res
+     */
+    public int NumberOf1Between1AndN_Solution(int n) {
+        if (n <= 0)
+            return 0;
+        int count = 0;
+        for (long i = 1; i <= n; i *= 10) {
+            long diviver = i * 10;
+            count += (n / diviver) * i + Math.min(Math.max(n % diviver - i + 1, 0), i);
+        }
+        return count;
+    }
+
+    /**
+     * 31.把数组排成最小的数
+     *
+     * @param numbers input
+     * @return res
+     */
+    public String PrintMinNumber(int[] numbers) {
+        if (numbers == null || numbers.length == 0) return "";
+        int length = numbers.length;
+        String[] strings = new String[length];
+        for (int i = 0; i < length; i++) {
+            strings[i] = numbers[i] + "";
+        }
+        Arrays.sort(strings, (s1, s2) -> (s1 + s2).compareTo(s2 + s1));
+        String res = "";
+        for (String string : strings) {
+            res += string;
+        }
+        return res;
+    }
+
+    /**
+     * 32.丑数
+     * 动态规划
+     *
+     * @param index input
+     * @return res
+     */
+    public int GetUglyNumber_Solution(int index) {
+        if (index <= 6) {
+            return index;
+        }
+        int i2 = 0, i3 = 0, i5 = 0;
+        int[] dp = new int[index];
+        dp[0] = 1;
+        for (int i = 1; i < index; i++) {
+            int next2 = dp[i2] * 2, next3 = dp[i3] * 3, next5 = dp[i5] * 5;
+            dp[i] = Math.min(next2, Math.min(next3, next5));
+            if (dp[i] == next2) i2++;
+            if (dp[i] == next3) i3++;
+            if (dp[i] == next5) i5++;
+        }
+        return dp[index - 1];
+    }
+
+    private long cnt = 0;
+    private int[] tmp;  // 在这里声明辅助数组，而不是在 merge() 递归函数中声明
+
+    /**
+     * 33.数组中逆序对
+     *
+     * @param nums input
+     * @return res
+     */
+    public int InversePairs(int[] nums) {
+        tmp = new int[nums.length];
+        mergeSort(nums, 0, nums.length - 1);
+        return (int) (cnt % 1000000007);
+    }
+
+    private void mergeSort(int[] nums, int l, int h) {
+        if (h - l < 1)
+            return;
+        int m = l + (h - l) / 2;
+        mergeSort(nums, l, m);
+        mergeSort(nums, m + 1, h);
+        merge(nums, l, m, h);
+    }
+
+    private void merge(int[] nums, int l, int m, int h) {
+        int i = l, j = m + 1, k = l;
+        while (i <= m || j <= h) {
+            if (i > m)
+                tmp[k] = nums[j++];
+            else if (j > h)
+                tmp[k] = nums[i++];
+            else if (nums[i] < nums[j])
+                tmp[k] = nums[i++];
+            else {
+                tmp[k] = nums[j++];
+                this.cnt += m - i + 1;  // nums[i] >= nums[j]，说明 nums[i...mid] 都大于 nums[j]
+            }
+            k++;
+        }
+        for (k = l; k <= h; k++)
+            nums[k] = tmp[k];
+    }
+
+    /**
+     * 34.两链表公共节点
+     *
+     * @param pHead1 {@link ListNode}
+     * @param pHead2 {@link ListNode}
+     * @return {@link ListNode}
+     */
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        ListNode l1 = pHead1, l2 = pHead2;
+        while (l1 != l2) {
+            l1 = (l1 == null) ? pHead2 : l1.next;
+            l2 = (l2 == null) ? pHead1 : l2.next;
+        }
+        return l1;
+    }
+
+
+    public int NumberOf1Between1AndN_Solution1(int n) {
+        int count = 0;
+        while (n != 0) {
+            count++;
+            n = n & (n - 1);
+        }
+        return count;
+    }
+
+    /**
      * 测试
      *
      * @param args args
@@ -707,6 +854,6 @@ public class Solution {
         int[] arr2 = {1, 2, 3, 4, 5};
         int[] arr3 = {4, 5, 3, 2, 1};
 
-        solution1.GetLeastNumbers_Solution(arr3, 3);
+        solution1.GetUglyNumber_Solution(7);
     }
 }
