@@ -825,13 +825,83 @@ public class Solution {
     }
 
 
-    public int NumberOf1Between1AndN_Solution1(int n) {
-        int count = 0;
-        while (n != 0) {
-            count++;
-            n = n & (n - 1);
+    /**
+     * 35.数字在排序数组中出现次数
+     *
+     * @param nums input
+     * @param K    target
+     * @return res
+     */
+    public int GetNumberOfK(int[] nums, int K) {
+        int first = binarySearch(nums, K);
+        int last = binarySearch(nums, K + 1);
+        return (first == nums.length || nums[first] != K) ? 0 : last - first;
+    }
+
+    private int binarySearch(int[] nums, int k) {
+        int l = 0, r = nums.length;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] >= k) {
+                r = m;
+            } else {
+                l = m + 1;
+            }
         }
-        return count;
+        return l;
+    }
+
+    /**
+     * 36.二叉树深度
+     *
+     * @param root input
+     * @return res
+     */
+    public int TreeDepth(TreeNode root) {
+        return root == null ? 0 : 1 + Math.max(TreeDepth(root.left), TreeDepth(root.right));
+    }
+
+    /**
+     * 37.平衡二叉树
+     *
+     * @param root input
+     * @return res
+     */
+    public boolean IsBalanced_Solution(TreeNode root) {
+        height(root);
+        return isBalanced;
+    }
+
+    private boolean isBalanced = true;
+
+    private int height(TreeNode root) {
+        if (root == null || !isBalanced)
+            return 0;
+        int left = height(root.left);
+        int right = height(root.right);
+        if (Math.abs(left - right) > 1)
+            isBalanced = false;
+        return 1 + Math.max(left, right);
+    }
+
+    /**
+     * 38.只出现一次的两个数
+     *
+     * @param nums
+     * @param num1
+     * @param num2
+     */
+    public void FindNumsAppearOnce(int[] nums, int num1[], int num2[]) {
+        int diff = 0;
+        for (int num : nums)
+            diff ^= num;
+        diff &= -diff;
+        for (int num : nums) {
+            if ((num & diff) == 0)
+                num1[0] ^= num;
+            else
+                num2[0] ^= num;
+        }
     }
 
     /**
@@ -851,9 +921,9 @@ public class Solution {
         treeNode.right = new TreeNode(3);
         listNode.next = listNode2;
         listNode2.next = listNode3;
-        int[] arr2 = {1, 2, 3, 4, 5};
+        int[] arr2 = {1, 2, 2, 5, 6};
         int[] arr3 = {4, 5, 3, 2, 1};
 
-        solution1.GetUglyNumber_Solution(7);
+        solution1.GetNumberOfK(arr2, 2);
     }
 }
