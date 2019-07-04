@@ -1,4 +1,4 @@
-package newcode;
+package code;
 
 import java.util.*;
 
@@ -7,7 +7,7 @@ import java.util.*;
  * @date 2019/6/19 23:27
  * 剑指offer
  */
-public class Solution {
+public class NewCode {
     /**
      * 1二维数组中的查找
      *
@@ -905,12 +905,67 @@ public class Solution {
     }
 
     /**
+     * 39.和为s的连续正数序列
+     *
+     * @param sum target
+     * @return res
+     */
+    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> ret = new ArrayList<>();
+        int start = 1, end = 2;
+        int curSum = 3;
+        while (end < sum) {
+            if (curSum > sum) {
+                curSum -= start;
+                start++;
+            } else if (curSum < sum) {
+                end++;
+                curSum += end;
+            } else {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (int i = start; i <= end; i++)
+                    list.add(i);
+                ret.add(list);
+                curSum -= start;
+                start++;
+                end++;
+                curSum += end;
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 40.和为s的两个数字
+     *
+     * @param array
+     * @param sum
+     * @return
+     */
+    public ArrayList<Integer> FindNumbersWithSum(int[] array, int sum) {
+        int l = 0, r = array.length - 1;
+        while (l < r) {
+            int cur = l + r;
+            if (cur == sum) {
+                return new ArrayList<>(Arrays.asList(array[l], array[r]));
+            }
+            if (cur < sum) {
+                l++;
+            } else {
+                r--;
+            }
+        }
+        return new ArrayList<>();
+    }
+
+
+    /**
      * 测试
      *
      * @param args args
      */
     public static void main(String[] args) {
-        Solution solution1 = new Solution();
+        NewCode solution1 = new NewCode();
         int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
         String s = " a b";
         ListNode listNode = new ListNode(3);

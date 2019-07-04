@@ -1,4 +1,4 @@
-package newcode;
+package code;
 
 /**
  * ListNode数据结构

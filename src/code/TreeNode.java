@@ -1,4 +1,4 @@
-package newcode;
+package code;
 
 /**
  * 二叉树
