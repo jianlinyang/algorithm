@@ -284,6 +284,49 @@ public class JkeTime {
     }
 
     /**
+     * 求纵数
+     *
+     * @param nums
+     * @return
+     */
+    public int majorityElement(int[] nums) {
+        int count = 1;
+        int major = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (major == nums[i]) {
+                count++;
+            } else {
+                count--;
+                if (count == 0) {
+                    major = nums[i + 1];
+                }
+            }
+
+        }
+        count = 0;
+        for (int num : nums) {
+            if (major == num) count++;
+        }
+        return count >= nums.length / 2 ? major : -1;
+    }
+
+    /**
+     * 买卖股票最佳时机
+     *
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        int res = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                res = res + prices[i] - prices[i - 1];
+            }
+        }
+        return res;
+    }
+
+    /**
      * test
      *
      * @param args args
