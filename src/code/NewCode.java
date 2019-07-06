@@ -234,21 +234,19 @@ public class NewCode {
      * @param array input
      */
     public void reOrderArray(int[] array) {
-        int even = 0;
         for (int i = 0; i < array.length; i++) {
             if ((array[i] & 1) == 0) {//偶数
-                even = i;
-                break;
+                int even = i;
+                while (even < array.length) {
+                    if ((array[even] & 1) != 0) {//奇数
+                        swap2(array, i, even);
+                        break;
+                    }
+                    even++;
+                }
             }
         }
-        int i = even;
-        while (i < array.length) {
-            if ((array[i] & 1) != 0) {
-                swap2(array, even, i);
-                even++;
-            }
-            i++;
-        }
+
     }
 
     private void swap2(int[] array, int s, int e) {
@@ -978,6 +976,7 @@ public class NewCode {
         listNode2.next = listNode3;
         int[] arr2 = {1, 2, 2, 5, 6};
         int[] arr3 = {4, 5, 3, 2, 1};
+        solution1.reOrderArray(arr3);
 
         solution1.GetNumberOfK(arr2, 2);
     }

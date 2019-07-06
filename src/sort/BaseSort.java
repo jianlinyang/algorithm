@@ -1,5 +1,7 @@
 package sort;
 
+import java.util.*;
+
 /**
  * 基本排序算法
  *
@@ -106,6 +108,38 @@ public class BaseSort {
     }
 
     /**
+     * 快速排序
+     *
+     * @param arr  target
+     * @param low  low
+     * @param high high
+     */
+    public void quickSort(int[] arr, int low, int high) {
+        int i, j, tmp;
+        if (low > high) return;
+        i = low;
+        j = high;
+        tmp = arr[low]; //基准位
+        while (i < j) {
+            while (tmp <= arr[j] && i < j) {//右边哨兵往左走
+                j--;
+            }
+            while (tmp >= arr[i] && i < j) {//左边哨兵往右走
+                i++;
+            }
+            if (i < j) {
+                swap(arr, i, j);
+            }
+        }
+        //交换基准位
+        arr[low] = arr[i];
+        arr[i] = tmp;
+        //递归二分
+        quickSort(arr, low, i - 1);
+        quickSort(arr, i + 1, high);
+    }
+
+    /**
      * 测试
      *
      * @param args args
@@ -117,6 +151,9 @@ public class BaseSort {
 //        baseSort.selectSort(nums);
 //        baseSort.insertSort(nums);
 //        baseSort.xiErSort(nums);
-        baseSort.mergeSort(nums);
+//        baseSort.mergeSort(nums);
+//        baseSort.quickSort(nums, 0, nums.length - 1);
+
+
     }
 }
