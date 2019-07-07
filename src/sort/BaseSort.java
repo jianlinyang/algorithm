@@ -27,6 +27,11 @@ public class BaseSort {
         }
     }
 
+    /**
+     * 选择排序
+     *
+     * @param nums
+     */
     public void selectSort(int[] nums) {
         int len = nums.length;
         for (int i = 0; i < len - 1; i++) {
@@ -40,6 +45,11 @@ public class BaseSort {
         }
     }
 
+    /**
+     * 插入排序
+     *
+     * @param nums
+     */
     public void insertSort(int[] nums) {
         int len = nums.length;
         for (int i = 1; i < len; i++) {
@@ -49,6 +59,11 @@ public class BaseSort {
         }
     }
 
+    /**
+     * 希尔排序
+     *
+     * @param nums
+     */
     public void xiErSort(int[] nums) {
         int len = nums.length;
         int h = 1;
@@ -58,47 +73,55 @@ public class BaseSort {
         while (h >= 1) {
             for (int i = h; i < len; i++) {
                 for (int j = i; j >= h && nums[j] < nums[j - h]; j -= h) {
-                    swap(nums, j, j - 1);
+                    swap(nums, j, j - h);
                 }
             }
             h = h / 3;
         }
     }
 
-    //归并排序
-    private int[] copy;
-
-    public void mergeSort(int[] nums) {
-        copy = new int[nums.length];
-        subSort(nums, 0, nums.length - 1);
+    /**
+     * 归并排序
+     *
+     * @param a
+     * @param low
+     * @param high
+     */
+    public void mergeSort(int[] a, int low, int high) {
+        int mid = (low + high) / 2;
+        if (low < high) {
+            mergeSort(a, low, mid);
+            mergeSort(a, mid + 1, high);
+            //左右归并
+            merge(a, low, mid, high);
+        }
     }
 
-    private void merge(int[] nums, int l, int m, int r) {
-        int i = l, j = m + 1;
-        for (int k = l; k <= r; k++) {
-            copy[k] = nums[k];//复制的辅助数组
-        }
-        for (int k = l; k <= r; k++) {
-            if (i > m) {
-                nums[k] = copy[j++];
-            } else if (j > r) {
-                nums[k] = copy[i++];
-            } else if (copy[i] <= copy[j]) {
-                nums[k] = copy[i++];
+    public void merge(int[] a, int low, int mid, int high) {
+        int[] temp = new int[high - low + 1];
+        int i = low;
+        int j = mid + 1;
+        int k = 0;
+        // 把较小的数先移到新数组中
+        while (i <= mid && j <= high) {
+            if (a[i] < a[j]) {
+                temp[k++] = a[i++];
             } else {
-                nums[k] = copy[j++];
+                temp[k++] = a[j++];
             }
         }
-    }
-
-    private void subSort(int[] nums, int l, int r) {
-        if (r <= l) {
-            return;
+        // 把左边剩余的数移入数组
+        while (i <= mid) {
+            temp[k++] = a[i++];
         }
-        int m = l + (r - l) / 2;
-        subSort(nums, l, m);
-        subSort(nums, m + 1, r);
-        merge(nums, l, m, r);
+        // 把右边边剩余的数移入数组
+        while (j <= high) {
+            temp[k++] = a[j++];
+        }
+        // 把新数组中的数覆盖nums数组
+        for (int x = 0; x < temp.length; x++) {
+            a[x + low] = temp[x];
+        }
     }
 
     private void swap(int[] nums, int s, int e) {
@@ -151,7 +174,7 @@ public class BaseSort {
 //        baseSort.selectSort(nums);
 //        baseSort.insertSort(nums);
 //        baseSort.xiErSort(nums);
-//        baseSort.mergeSort(nums);
+        baseSort.mergeSort(nums, 0, nums.length - 1);
 //        baseSort.quickSort(nums, 0, nums.length - 1);
 
 
