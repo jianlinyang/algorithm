@@ -80,47 +80,43 @@ public class BaseSort {
         }
     }
 
+
+    private int[] tmp;
+
     /**
      * 归并排序
      *
-     * @param a
-     * @param low
-     * @param high
+     * @param nums
      */
-    public void mergeSort(int[] a, int low, int high) {
-        int mid = (low + high) / 2;
-        if (low < high) {
-            mergeSort(a, low, mid);
-            mergeSort(a, mid + 1, high);
-            //左右归并
-            merge(a, low, mid, high);
-        }
+    public void mergeSort(int[] nums) {
+        tmp = new int[nums.length];
+        sort(nums, 0, nums.length - 1);
     }
 
-    public void merge(int[] a, int low, int mid, int high) {
-        int[] temp = new int[high - low + 1];
-        int i = low;
-        int j = mid + 1;
-        int k = 0;
-        // 把较小的数先移到新数组中
-        while (i <= mid && j <= high) {
-            if (a[i] < a[j]) {
-                temp[k++] = a[i++];
+    private void sort(int[] nums, int l, int r) {
+        if (l >= r) return;
+        int m = l + (r - l) / 2;
+        sort(nums, l, m);
+        sort(nums, m + 1, r);
+        merge(nums, l, m, r);
+    }
+
+    private void merge(int[] nums, int l, int m, int r) {
+        int i = l, j = m + 1, k = l;
+        while (i <= m || j <= r) {
+            if (i > m) {
+                tmp[k] = nums[j++];
+            } else if (j > r) {
+                tmp[k] = nums[i++];
+            } else if (nums[i] <= nums[j]) {
+                tmp[k] = nums[i++];
             } else {
-                temp[k++] = a[j++];
+                tmp[k] = nums[j++];
             }
+            k++;
         }
-        // 把左边剩余的数移入数组
-        while (i <= mid) {
-            temp[k++] = a[i++];
-        }
-        // 把右边边剩余的数移入数组
-        while (j <= high) {
-            temp[k++] = a[j++];
-        }
-        // 把新数组中的数覆盖nums数组
-        for (int x = 0; x < temp.length; x++) {
-            a[x + low] = temp[x];
+        for (k = l; k <= r; k++) {
+            nums[k] = tmp[k];
         }
     }
 
@@ -174,7 +170,7 @@ public class BaseSort {
 //        baseSort.selectSort(nums);
 //        baseSort.insertSort(nums);
 //        baseSort.xiErSort(nums);
-        baseSort.mergeSort(nums, 0, nums.length - 1);
+        baseSort.mergeSort(nums);
 //        baseSort.quickSort(nums, 0, nums.length - 1);
 
 
