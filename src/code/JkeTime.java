@@ -333,7 +333,7 @@ public class JkeTime {
      * @param args args
      */
     public static void main(String[] args) {
-        int[] arr = {2, 1, 4, 6, 8, 1, 2, 6, 7};
+        int[] arr = {2, 1, 5, 4, 6, 8, 1, 2, 6, 7};
         int[] arr2 = {-1, 0, 1, 2, -1, -4};
         JkeTime jkeTime = new JkeTime();
         jkeTime.maxSlidingWindow(arr, 3);

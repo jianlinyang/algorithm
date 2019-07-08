@@ -98,8 +98,8 @@ public class NewCode {
         return root;
     }
 
-    Stack<Integer> stack1 = new Stack<Integer>();
-    Stack<Integer> stack2 = new Stack<Integer>();
+    Stack<Integer> stack1 = new Stack<>();
+    Stack<Integer> stack2 = new Stack<>();
 
     /**
      * 5.两个栈实现队列

@@ -6,7 +6,7 @@ package practice;
  */
 public class Day1 {
     public void quickSort(int[] nums, int l, int r) {
-        if (l > r) return;
+        if (l >= r) return;
         int i = l, j = r;
         int tmp = nums[l];
         while (i < j) {
@@ -78,7 +78,7 @@ public class Day1 {
     public static void main(String[] args) {
         int[] nums = {4, 3, 2, 5, 1, 9, 7, 8, 6};
         Day1 day1 = new Day1();
-//        day1.quickSort(nums, 0, nums.length - 1);
-        day1.InversePairs(nums);
+        day1.quickSort(nums, 0, nums.length - 1);
+//        day1.InversePairs(nums);
     }
 }
