@@ -151,11 +151,10 @@ public class BaseSort {
             }
         }
         //交换基准位
-        arr[low] = arr[i];
-        arr[i] = tmp;
+        swap(arr, low, j);
         //递归二分
-        quickSort(arr, low, i - 1);
-        quickSort(arr, i + 1, high);
+        quickSort(arr, low, j - 1);
+        quickSort(arr, j + 1, high);
     }
 
     /**
@@ -170,8 +169,8 @@ public class BaseSort {
 //        baseSort.selectSort(nums);
 //        baseSort.insertSort(nums);
 //        baseSort.xiErSort(nums);
-        baseSort.mergeSort(nums);
-//        baseSort.quickSort(nums, 0, nums.length - 1);
+//        baseSort.mergeSort(nums);
+        baseSort.quickSort(nums, 0, nums.length - 1);
 
 
     }
