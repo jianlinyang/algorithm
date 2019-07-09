@@ -20,22 +20,27 @@ public class TreeProblem {
             if (pop.left != null) stack.push(pop.left);
         }
     }
-
-    public static void in(TreeNode root) {
-        if (root == null) return;
+    /**
+     * 验证二叉搜索树
+     *
+     * @param root {@link TreeNode}
+     * @return true/false
+     */
+    public boolean isValidBST(TreeNode root) {
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode cur = root.left;
-        stack.push(root);
-        while (!stack.isEmpty() || cur != null) {
-            if (cur == null) {
-                TreeNode pop = stack.pop();
-                System.out.println(pop.val);
-                cur = pop.right;
-            } else {
+        TreeNode pre = null, cur = root;
+
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
                 stack.push(cur);
                 cur = cur.left;
             }
+            cur = stack.pop();
+            if (pre != null && pre.val >= cur.val) return false;
+            pre = cur;
+            cur = cur.right;
         }
+        return true;
     }
 
     public static void after(TreeNode root) {
@@ -204,6 +209,185 @@ public class TreeProblem {
         return res;
     }
 
+    /**
+     * 重建二叉树
+     */
+    private Map<Integer, Integer> indexForInOrders = new HashMap<>();
+
+    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
+        for (int i = 0; i < in.length; i++) {
+            indexForInOrders.put(in[i], i);
+        }
+        return reConstructBinaryTree(pre, 0, pre.length - 1, 0);
+    }
+
+    private TreeNode reConstructBinaryTree(int[] pre, int preL, int preR, int inL) {
+        if (preL > preR) {
+            return null;
+        }
+        TreeNode root = new TreeNode(pre[preL]);
+        int inIndex = indexForInOrders.get(root.val);
+        int leftTreeSize = inIndex - inL;
+        root.left = reConstructBinaryTree(pre, preL + 1, preL + leftTreeSize, inL);
+        root.right = reConstructBinaryTree(pre, preL + leftTreeSize + 1, preR, inL + leftTreeSize + 1);
+        return root;
+    }
+
+
+    //一下递归方法
+
+    /**
+     * 对称二叉树
+     *
+     * @param pRoot
+     * @return
+     */
+    boolean isSymmetrical(TreeNode pRoot) {
+        if (pRoot == null) return true;
+        return subSymmetrical(pRoot.left, pRoot.right);
+    }
+
+    private boolean subSymmetrical(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (left == null || right == null) return false;
+        if (left.val != right.val) return false;
+        return subSymmetrical(left.left, right.right) && subSymmetrical(right.left, left.right);
+    }
+
+    /**
+     * 1树的子结构
+     *
+     * @param root1 A
+     * @param root2 B
+     * @return 判断B是不是A的子结构
+     */
+    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
+        if (root1 == null || root2 == null) return false;
+        return isSubtree(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+    }
+
+    private boolean isSubtree(TreeNode r1, TreeNode r2) {
+        if (r2 == null) return true;
+        if (r1 == null) return false;
+        if (r1.val != r2.val) return false;
+        return isSubtree(r1.left, r2.left) && isSubtree(r1.right, r2.right);
+    }
+
+    /**
+     * 二叉树的镜像
+     *
+     * @param root input
+     */
+    public void Mirror(TreeNode root) {
+        if (root == null) return;
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
+        Mirror(root.left);
+        Mirror(root.right);
+    }
+
+    /**
+     * 二叉搜索树的后序遍历序列
+     *
+     * @param sequence input
+     * @return true/false
+     */
+    public boolean VerifySquenceOfBST(int[] sequence) {
+        if (sequence == null || sequence.length == 0)
+            return false;
+        return verify(sequence, 0, sequence.length - 1);
+    }
+
+    private boolean verify(int[] sequence, int first, int last) {
+        if (last - first <= 1) return true;
+        int curIndex = first;
+        int rootVal = sequence[last];
+        while (curIndex < last && sequence[curIndex] <= rootVal)
+            curIndex++;
+        for (int i = curIndex; i < last; i++) {
+            if (sequence[i] < rootVal) return false;
+        }
+        return verify(sequence, first, curIndex - 1) &&
+                verify(sequence, curIndex, last - 1);
+    }
+
+    /**
+     * 二叉树中和为某一路径
+     *
+     * @param root   二叉树
+     * @param target 目标
+     * @return {@link ArrayList}
+     */
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+    Stack<Integer> stack = new Stack<>();
+
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        backTracking(root, target);
+        return res;
+    }
+
+    private void backTracking(TreeNode root, int target) {
+        if (root == null) return;
+        stack.push(root.val);
+        if (target == root.val && root.left == null && root.right == null) {
+            res.add(new ArrayList<>(stack));
+        }
+        target = target - root.val;
+        backTracking(root.left, target);
+        backTracking(root.right, target);
+        stack.pop();
+    }
+
+    /**
+     * 二叉搜索树转双向链表
+     *
+     * @param pRootOfTree input
+     * @return {@link TreeNode}
+     */
+
+    private TreeNode pre = null;
+    private TreeNode head = null;
+
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        inOrder(pRootOfTree);
+        return head;
+    }
+
+    private void inOrder(TreeNode node) {
+        if (node == null) return;
+        inOrder(node.left);
+        node.left = pre;
+        if (pre != null) pre.right = node;
+        pre = node;
+        if (head == null) head = node;
+        inOrder(node.right);
+    }
+
+    /**
+     * 平衡二叉树
+     *
+     * @param root input
+     * @return res
+     */
+    public boolean IsBalanced_Solution(TreeNode root) {
+        height(root);
+        return isBalanced;
+    }
+
+    private boolean isBalanced = true;
+
+    private int height(TreeNode root) {
+        if (root == null || !isBalanced)
+            return 0;
+        int left = height(root.left);
+        int right = height(root.right);
+        if (Math.abs(left - right) > 1)
+            isBalanced = false;
+        return 1 + Math.max(left, right);
+    }
+
+
     public static void main(String[] args) {
         TreeNode treeNode1 = new TreeNode(1);
         TreeNode treeNode2 = new TreeNode(2);
@@ -219,7 +403,8 @@ public class TreeProblem {
         treeNode3.left = treeNode6;
         treeNode3.right = treeNode7;
 //        Day2_2.pre(treeNode1);
-//        Day2_2.in(treeNode1);
+        TreeProblem treeProblem = new TreeProblem();
+        treeProblem.isValidBST(treeNode1);
 //        TreeProblem.after(treeNode1);
 
     }
