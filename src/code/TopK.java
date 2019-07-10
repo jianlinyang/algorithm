@@ -16,20 +16,17 @@ public class TopK {
         }
         return res;
     }
-
     private void find(int[] nums, int k) {
         int l = 0, h = nums.length - 1;
         while (l < h) {
             int j = quickSort(nums, l, h);
-            if (j == k)
-                break;
+            if (j == k) break;
             if (j > k)
                 h = j - 1;
             else
                 l = j + 1;
         }
     }
-
     private int quickSort(int[] nums, int l, int r) {
         int i = l, j = r;
         int tmp = nums[l];

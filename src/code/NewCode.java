@@ -585,11 +585,11 @@ public class NewCode {
     public ArrayList<String> Permutation(String str) {
         if (str.length() == 0)
             return ret;
-        char[] chars = str.toCharArray();
+    char[] chars = str.toCharArray();
         Arrays.sort(chars);
-        backtracking(chars, new boolean[chars.length], new StringBuilder());
+    backtracking(chars, new boolean[chars.length], new StringBuilder());
         return ret;
-    }
+}
 
     private void backtracking(char[] chars, boolean[] hasUsed, StringBuilder s) {
         if (s.length() == chars.length) {
