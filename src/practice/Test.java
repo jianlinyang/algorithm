@@ -1,7 +1,5 @@
 package practice;
 
-import sort.Single;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
