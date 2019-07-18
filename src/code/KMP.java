@@ -4,7 +4,7 @@ package code;
  * @author yang
  * @date 2019/7/15 19:50
  */
-public class ZuoYun {
+public class KMP {
     /**
      * KMP算法
      * @param s
@@ -54,10 +54,11 @@ public class ZuoYun {
         return next;
     }
 
+
     public static void main(String[] args) {
         String s = "aaaac1abc1";
         String m = "aac1abc1";
-        ZuoYun zuoYun = new ZuoYun();
+        KMP zuoYun = new KMP();
         int indexOf = zuoYun.getIndexOf(s, m);
         System.out.println(indexOf);
     }
