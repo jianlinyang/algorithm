@@ -38,11 +38,11 @@ public class HeapOperator {
         int childIndex = 2 * parentIndex + 1;
         while (childIndex < length) {
             // 如果有右孩子，且右孩子小于左孩子的值，则定位到右孩子
-            if (childIndex + 1 < length && array[childIndex + 1] < array[childIndex]) {
+            if (childIndex + 1 < length && array[childIndex + 1] > array[childIndex]) {
                 childIndex++;
             }
             // 如果父节点小于任何一个孩子的值，直接跳出
-            if (temp <= array[childIndex]) {
+            if (temp >= array[childIndex]) {
                 break;
             }
             array[parentIndex] = array[childIndex];
@@ -52,18 +52,23 @@ public class HeapOperator {
         array[parentIndex] = temp;
     }
 
-    public static void buildHeap(int[] array) {
+    public static void heapSort(int[] array) {
+        //构建堆
         for (int i = array.length / 2; i >= 0; i--) {
             downAdjust(array, i, array.length - 1);
+        }
+        for (int i = array.length - 1; i > 0; i--) {
+            int i1 = array[i];
+            array[i] = array[0];
+            array[0] = i1;
+            //下沉调整
+            downAdjust(array, 0, i);
         }
     }
 
     public static void main(String[] args) {
-        int[] array = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-        upAdjust(array);
-        System.out.println(Arrays.toString(array));
-        array = new int[]{7, 3, 5, 4, 6, 9, 1, 8, 2};
-        buildHeap(array);
+        int[] array = new int[]{7, 3, 5, 4, 6, 9, 1, 8, 2};
+        heapSort(array);
         System.out.println(Arrays.toString(array));
     }
 }
