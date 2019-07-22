@@ -166,13 +166,7 @@ public class BaseSort {
     public static void main(String[] args) {
         int[] nums = {4, 3, 2, 5, 1, 9, 7, 8, 6};
         BaseSort baseSort = new BaseSort();
-//        baseSort.maoPaoSort(nums);
-//        baseSort.selectSort(nums);
-//        baseSort.insertSort(nums);
-//        baseSort.xiErSort(nums);
-//        baseSort.mergeSort(nums);
         baseSort.quickSort(nums, 0, nums.length - 1);
-
-
+        System.out.println(Arrays.toString(nums));
     }
 }

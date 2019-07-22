@@ -247,7 +247,6 @@ public class NewCode {
                 }
             }
         }
-
     }
 
     private void swap2(int[] array, int s, int e) {
@@ -366,31 +365,25 @@ public class NewCode {
      * @return {@link ArrayList}
      */
     public ArrayList<Integer> printMatrix(int[][] matrix) {
-        ArrayList<Integer> res = new ArrayList();
-        int i = 0, j = matrix[0].length, k = 0, l = matrix.length;
-        while (i < j && k < l) {
-            print(matrix, i++, j--, k++, l--, res);
+        ArrayList<Integer> ret = new ArrayList<>();
+        int r1 = 0, r2 = matrix.length - 1, c1 = 0, c2 = matrix[0].length - 1;
+        while (r1 <= r2 && c1 <= c2) {
+            for (int i = c1; i <= c2; i++)
+                ret.add(matrix[r1][i]);
+            for (int i = r1 + 1; i <= r2; i++)
+                ret.add(matrix[i][c2]);
+            if (r1 != r2)
+                for (int i = c2 - 1; i >= c1; i--)
+                    ret.add(matrix[r2][i]);
+            if (c1 != c2)
+                for (int i = r2 - 1; i > r1; i--)
+                    ret.add(matrix[i][c1]);
+            r1++;
+            r2--;
+            c1++;
+            c2--;
         }
-        return res;
-    }
-
-    private void print(int[][] matrix, int stRow, int enRow, int srCol, int enCol, ArrayList<Integer> list) {
-        for (int i = stRow; i < enRow; i++) {
-            list.add(matrix[srCol][i]);
-        }
-        for (int i = srCol + 1; i < enCol; i++) {
-            list.add(matrix[i][enRow - 1]);
-        }
-        if (srCol < enCol - 1) {
-            for (int i = enRow - 2; i >= stRow; i--) {
-                list.add(matrix[enCol - 1][i]);
-            }
-        }
-        if (stRow < enRow - 1) {
-            for (int i = enCol - 2; i >= srCol + 1; i--) {
-                list.add(matrix[i][stRow]);
-            }
-        }
+        return ret;
     }
 
     private Stack<Integer> dataStack = new Stack<>();
@@ -586,11 +579,11 @@ public class NewCode {
     public ArrayList<String> Permutation(String str) {
         if (str.length() == 0)
             return ret;
-    char[] chars = str.toCharArray();
+        char[] chars = str.toCharArray();
         Arrays.sort(chars);
-    backtracking(chars, new boolean[chars.length], new StringBuilder());
+        backtracking(chars, new boolean[chars.length], new StringBuilder());
         return ret;
-}
+    }
 
     private void backtracking(char[] chars, boolean[] hasUsed, StringBuilder s) {
         if (s.length() == chars.length) {
@@ -908,6 +901,7 @@ public class NewCode {
 
     /**
      * 机器人运动范围
+     *
      * @param threshold
      * @param rows
      * @param cols
@@ -915,51 +909,55 @@ public class NewCode {
      */
     public int movingCount(int threshold, int rows, int cols) {
         boolean[][] visited = new boolean[rows][cols];
-        return countingSteps(threshold,rows,cols,0,0,visited);
+        return countingSteps(threshold, rows, cols, 0, 0, visited);
     }
-    public int countingSteps(int limit,int rows,int cols,int r,int c,boolean[][] visited){
+
+    public int countingSteps(int limit, int rows, int cols, int r, int c, boolean[][] visited) {
         if (r < 0 || r >= rows || c < 0 || c >= cols
-                || visited[r][c] || bitSum(r) + bitSum(c) > limit)  return 0;
+                || visited[r][c] || bitSum(r) + bitSum(c) > limit) return 0;
         visited[r][c] = true;
-        return countingSteps(limit,rows,cols,r - 1,c,visited)
-                + countingSteps(limit,rows,cols,r,c - 1,visited)
-                + countingSteps(limit,rows,cols,r + 1,c,visited)
-                + countingSteps(limit,rows,cols,r,c + 1,visited)
+        return countingSteps(limit, rows, cols, r - 1, c, visited)
+                + countingSteps(limit, rows, cols, r, c - 1, visited)
+                + countingSteps(limit, rows, cols, r + 1, c, visited)
+                + countingSteps(limit, rows, cols, r, c + 1, visited)
                 + 1;
     }
-    public int bitSum(int t){
+
+    public int bitSum(int t) {
         int count = 0;
-        while (t != 0){
+        while (t != 0) {
             count += t % 10;
             t /= 10;
         }
-        return  count;
+        return count;
 
     }
 
     /**
      * 乘积数组
+     *
      * @param A
      * @return
      */
     public int[] multiply(int[] A) {
         int length = A.length;
         int[] B = new int[length];
-        if(length != 0 ){
+        if (length != 0) {
             B[0] = 1;
             //计算下三角连乘
-            for(int i = 1; i < length; i++){
-                B[i] = B[i-1] * A[i-1];
+            for (int i = 1; i < length; i++) {
+                B[i] = B[i - 1] * A[i - 1];
             }
             int temp = 1;
             //计算上三角
-            for(int j = length-2; j >= 0; j--){
-                temp *= A[j+1];
+            for (int j = length - 2; j >= 0; j--) {
+                temp *= A[j + 1];
                 B[j] *= temp;
             }
         }
         return B;
     }
+
     /**
      * 测试
      *

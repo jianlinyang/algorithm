@@ -42,7 +42,6 @@ public class TreeProblem {
         }
         return true;
     }
-
     public static void after(TreeNode root) {
         if (root == null) return;
         Stack<TreeNode> stack1 = new Stack<>();
