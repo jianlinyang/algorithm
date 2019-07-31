@@ -95,7 +95,7 @@ public class NewCode {
         int inIndex = indexForInOrders.get(root.val);
         int leftTreeSize = inIndex - inL;
         root.left = reConstructBinaryTree(pre, preL + 1, preL + leftTreeSize, inL);
-        root.right = reConstructBinaryTree(pre, preL + leftTreeSize + 1, preR, inL + leftTreeSize + 1);
+        root.right = reConstructBinaryTree(pre, preL + leftTreeSize + 1, preR, inIndex + 1);
         return root;
     }
 
@@ -364,26 +364,26 @@ public class NewCode {
      * @param matrix input
      * @return {@link ArrayList}
      */
-    public ArrayList<Integer> printMatrix(int[][] matrix) {
-        ArrayList<Integer> ret = new ArrayList<>();
+    public ArrayList<Integer> printMatri(int[][] matrix) {
+        ArrayList<Integer> res = new ArrayList<>();
         int r1 = 0, r2 = matrix.length - 1, c1 = 0, c2 = matrix[0].length - 1;
         while (r1 <= r2 && c1 <= c2) {
             for (int i = c1; i <= c2; i++)
-                ret.add(matrix[r1][i]);
+                res.add(matrix[r1][i]);
             for (int i = r1 + 1; i <= r2; i++)
-                ret.add(matrix[i][c2]);
+                res.add(matrix[i][c2]);
             if (r1 != r2)
                 for (int i = c2 - 1; i >= c1; i--)
-                    ret.add(matrix[r2][i]);
+                    res.add(matrix[r2][i]);
             if (c1 != c2)
                 for (int i = r2 - 1; i > r1; i--)
-                    ret.add(matrix[i][c1]);
+                    res.add(matrix[i][c1]);
             r1++;
             r2--;
             c1++;
             c2--;
         }
-        return ret;
+        return res;
     }
 
     private Stack<Integer> dataStack = new Stack<>();
@@ -876,6 +876,42 @@ public class NewCode {
         return ret;
     }
 
+    //下一个二叉树节点
+    public TreeLinkNode GetNext(TreeLinkNode pNode) {
+        if (pNode.right != null) {
+            TreeLinkNode node = pNode.right;
+            while (node.left != null)
+                node = node.left;
+            return node;
+        } else {
+            while (pNode.next != null) {
+                TreeLinkNode parent = pNode.next;
+                if (parent.left == pNode)
+                    return parent;
+                pNode = pNode.next;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 判断镜像
+     *
+     * @param pRoot
+     * @return
+     */
+    public boolean isSymmetrical(TreeNode pRoot) {
+        if (pRoot == null) return true;
+        return sub(pRoot.left, pRoot.right);
+    }
+
+    private boolean sub(TreeNode l, TreeNode r) {
+        if (l == null && r == null) return true;
+        if (l == null || r == null) return false;
+        if (l.val != r.val) return false;
+        return sub(l.left, r.right) && sub(l.right, r.left);
+    }
+
     /**
      * 40.和为s的两个数字
      *
@@ -958,6 +994,62 @@ public class NewCode {
         return B;
     }
 
+    private ListNode h = null;
+    private ListNode t = null;
+    private ListNode n = null;
+
+    public ListNode reverse(ListNode root, int k) {
+        subRev(root, k);
+        ListNode res = h;
+        while (t.next != null) {
+            ListNode tmp = t;
+            subRev(n, k);
+            tmp.next = h;
+        }
+        return res;
+    }
+
+    private void subRev(ListNode root, int k) {
+        t = root;
+        ListNode pre = root;
+        root = root.next;
+        while (k > 1) {
+            k--;
+            if (root == null) {
+                h = pre;
+                t.next = null;
+                return;
+            }
+            n = root.next;
+            root.next = pre;
+            pre = root;
+            root = n;
+        }
+        h = pre;
+    }
+
+    public int match(String s, String m) {
+        ArrayList<Character> list = new ArrayList<>();
+        for (int i = 0; i < m.length(); i++) {
+            list.add(m.charAt(i));
+        }
+        for (int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            if (list.contains(c)) {
+                list.remove((c));
+                if (list.isEmpty()) {
+                    return (i - m.length()+1);
+                }
+            }else {
+                int j = i;
+                while (list.size() != m.length()) {
+                    list.add(s.charAt(--j));
+                }
+            }
+        }
+        return -1;
+    }
+
     /**
      * 测试
      *
@@ -966,19 +1058,24 @@ public class NewCode {
     public static void main(String[] args) {
         NewCode solution1 = new NewCode();
         int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
-        String s = " a b";
-        ListNode listNode = new ListNode(3);
-        ListNode listNode2 = new ListNode(4);
-        ListNode listNode3 = new ListNode(5);
+        String s = "abcdsadasf";
+        String m = "cdas";
+        ListNode listNode = new ListNode(1);
+        ListNode listNode2 = new ListNode(2);
+        ListNode listNode3 = new ListNode(3);
+        ListNode listNode4 = new ListNode(4);
+        ListNode listNode5 = new ListNode(5);
+        ListNode listNode6 = new ListNode(6);
+        ListNode listNode7 = new ListNode(7);
         TreeNode treeNode = new TreeNode(1);
         treeNode.left = new TreeNode(2);
         treeNode.right = new TreeNode(3);
         listNode.next = listNode2;
         listNode2.next = listNode3;
-        int[] arr2 = {1, 2, 2, 5, 6};
-        int[] arr3 = {4, 5, 3, 2, 1};
-        solution1.reOrderArray(arr3);
-
-        solution1.GetNumberOfK(arr2, 2);
+        listNode3.next = listNode4;
+        listNode4.next = listNode5;
+        listNode5.next = listNode6;
+        listNode6.next = listNode7;
+        System.out.println(solution1.match(s, m));
     }
 }

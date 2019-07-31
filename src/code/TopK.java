@@ -49,7 +49,7 @@ public class TopK {
     public static void main(String[] args) {
         int[] nums = {4, 3, 2, 5, 1, 9, 7, 8, 6};
         TopK topK = new TopK();
-        ArrayList<Integer> k = topK.GetLeastNumbers_Solution(nums, 4);
+        ArrayList<Integer> k = topK.GetLeastNumbers_Solution(nums, 1);
         for (Integer integer : k) {
             System.out.println(integer);
         }

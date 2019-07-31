@@ -80,5 +80,7 @@ public class Day1 {
         Day1 day1 = new Day1();
         day1.quickSort(nums, 0, nums.length - 1);
 //        day1.InversePairs(nums);
+        int i = 0 / 2;
+        System.out.println(i);
     }
 }

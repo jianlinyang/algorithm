@@ -19,6 +19,7 @@ public class Test implements Runnable {
     public Test(CountDownLatch countDownLatch, Map<Integer, Integer> map) {
         this.countDownLatch = countDownLatch;
         this.map = map;
+
     }
 
     public static void main(String[] args) {

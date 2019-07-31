@@ -1,6 +1,4 @@
-package practice;
-
-import code.TreeNode;
+package code;
 
 import java.util.*;
 
@@ -20,6 +18,7 @@ public class TreeProblem {
             if (pop.left != null) stack.push(pop.left);
         }
     }
+
     /**
      * 验证二叉搜索树
      *
@@ -42,6 +41,7 @@ public class TreeProblem {
         }
         return true;
     }
+
     public static void after(TreeNode root) {
         if (root == null) return;
         Stack<TreeNode> stack1 = new Stack<>();
@@ -111,11 +111,13 @@ public class TreeProblem {
         for (int i = 0; i < split.length; i++) {
             if (!split[i].equals("#")) treeNodes[i] = new TreeNode(Integer.valueOf(split[i]));
         }
-        for (int i = 0, j = 1; j < split.length; i++) {
+        int j = 1, i = 0;
+        while (j < split.length) {
             if (treeNodes[i] != null) {
                 treeNodes[i].left = treeNodes[j++];
                 treeNodes[i].right = treeNodes[j++];
             }
+            i++;
         }
         return treeNodes[0];
     }
