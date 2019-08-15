@@ -14,9 +14,8 @@ public class Day4 {
         if (s == null || m == null || m.length() < 1 || s.length() < m.length()) {
             return -1;
         }
-        int si = 0;
-        int mi = 0;
         int[] next = next(m);
+        int si = 0, mi = 0;
         while (si < s.length() && mi < m.length()) {
             if (s.charAt(si) == m.charAt(mi)) {
                 si++;
@@ -37,17 +36,19 @@ public class Day4 {
         int[] next = new int[ms.length()];
         next[0] = -1;
         next[1] = 0;
-        int pos = 2;
+        int cur = 2;
         int cn = 0;
-        while (pos < next.length) {
-            if (ms.charAt(pos - 1) == ms.charAt(cn)) {
-                next[pos++] = ++cn;
+        while (cur < ms.length()) {
+            if (ms.charAt(cur - 1) == ms.charAt(cn)) {
+                next[cur++] = ++cn;
             } else if (cn > 0) {
                 cn = next[cn];
             } else {
-                next[pos++] = 0;
+                next[cur++] = 0;
             }
         }
+        String s = "aa";
+        String[] as = s.split("a");
         return next;
     }
 

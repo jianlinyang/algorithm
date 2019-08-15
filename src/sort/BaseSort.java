@@ -82,13 +82,14 @@ public class BaseSort {
     }
 
 
-    private int[] tmp;
 
     /**
      * 归并排序
      *
      * @param nums
      */
+    private int[] tmp;
+
     public void mergeSort(int[] nums) {
         tmp = new int[nums.length];
         sort(nums, 0, nums.length - 1);

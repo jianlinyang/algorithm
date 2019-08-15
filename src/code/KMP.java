@@ -7,6 +7,7 @@ package code;
 public class KMP {
     /**
      * KMP算法
+     *
      * @param s
      * @param m
      * @return
@@ -34,7 +35,7 @@ public class KMP {
     }
 
     private int[] getNextArray(char[] ms) {
-        if(ms.length==1){
+        if (ms.length == 1) {
             return new int[]{-1};
         }
         int[] next = new int[ms.length];
@@ -43,11 +44,11 @@ public class KMP {
         int pos = 2;
         int cn = 0;
         while (pos < next.length) {
-            if (ms[pos - 1]==ms[cn]) {
+            if (ms[pos - 1] == ms[cn]) {
                 next[pos++] = ++cn;
             } else if (cn > 0) {
                 cn = next[cn];
-            }else {
+            } else {
                 next[pos++] = 0;
             }
         }

@@ -35,7 +35,7 @@ public class HeapOperator {
      */
     public static void downAdjust(int[] array, int parentIndex, int length) {
         int temp = array[parentIndex];
-        int childIndex = 2 * parentIndex ;
+        int childIndex = 2 * parentIndex + 1;
         while (childIndex < length) {
             // 如果有右孩子，且右孩子小于左孩子的值，则定位到右孩子
             if (childIndex + 1 < length && array[childIndex + 1] > array[childIndex]) {
@@ -47,7 +47,7 @@ public class HeapOperator {
             }
             array[parentIndex] = array[childIndex];
             parentIndex = childIndex;
-            childIndex = 2 * childIndex ;
+            childIndex = 2 * childIndex;
         }
         array[parentIndex] = temp;
     }
