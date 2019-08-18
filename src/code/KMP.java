@@ -59,8 +59,9 @@ public class KMP {
     public static void main(String[] args) {
         String s = "aaaac1abc1";
         String m = "aac1abc1";
-        KMP zuoYun = new KMP();
-        int indexOf = zuoYun.getIndexOf(s, m);
-        System.out.println(indexOf);
+//        KMP zuoYun = new KMP();
+//        int indexOf = zuoYun.getIndexOf(s, m);
+//        System.out.println(indexOf);
+        ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<>();
     }
 }

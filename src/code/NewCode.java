@@ -119,25 +119,6 @@ public class NewCode {
         return stack2.pop();
     }
 
-    /**
-     * 6.旋转数组的最小数字
-     *
-     * @param array input
-     * @return int
-     */
-    public int minNumberInRotateArray(int[] array) {
-        if (array.length == 0) return 0;
-        int left = 0, right = array.length - 1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (array[right] >= array[mid]) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return array[left];
-    }
 
     /**
      * 7.斐波那楔数列
@@ -790,7 +771,25 @@ public class NewCode {
         }
         return l;
     }
-
+    /**
+     * 6.旋转数组的最小数字
+     *
+     * @param array input
+     * @return int
+     */
+    public int minNumberInRotateArray(int[] array) {
+        if (array.length == 0) return 0;
+        int left = 0, right = array.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (array[right] >= array[mid]) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return array[left];
+    }
     /**
      * 36.二叉树深度
      *

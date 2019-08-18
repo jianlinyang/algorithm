@@ -1,9 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author yang
@@ -245,13 +242,116 @@ public class Leetcode {
             }
             index = count - list.size();
         }
-        return dp[dp.length-1];
+        return dp[dp.length - 1];
     }
+
+    /**
+     * 单词拆分
+     *
+     * @param s
+     * @param wordDict
+     * @return
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordDict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        int res = nums[0], preMax = nums[0], preMin = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int curMax = Math.max(Math.max(preMax * nums[i], preMin * nums[i]), nums[i]);
+            int curMin = Math.min(Math.min(preMax * nums[i], preMin * nums[i]), nums[i]);
+            res = Math.max(curMax, res);
+            preMax = curMax;
+            preMin = curMin;
+        }
+        return res;
+    }
+
+    public int rob(int[] nums) {
+        if (nums == null) return 0;
+        int length = nums.length;
+        if (length == 0) return 0;
+        if (length == 1) return nums[0];
+        if (length == 2) return Math.max(nums[0], nums[1]);
+        int[] dp = new int[length];
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0], nums[1]);
+        for (int i = 2; i < length - 1; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        int tmp = dp[length - 2];
+        dp[1] = nums[1];
+        dp[2] = Math.max(nums[1], nums[2]);
+        for (int i = 3; i < length; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        return Math.max(tmp, dp[length - 1]);
+    }
+
+    /**
+     * 最大正方形
+     *
+     * @param matrix
+     * @return
+     */
+    public int maximalSquare(char[][] matrix) {
+        if (matrix.length == 0) return 0;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] dp = new int[row + 1][col + 1];
+        int max = 0;
+        for (int i = 1; i <= row; i++) {
+            for (int j = 1; j <= col; j++) {
+                if (matrix[i - 1][j - 1] == '1') {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i - 1][j - 1]), dp[i][j - 1]) + 1;
+                    max = Math.max(max, dp[i][j]);
+                }
+            }
+        }
+        return max * max;
+    }
+
+    /**
+     * 零钱兑换
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+
 
     public static void main(String[] args) {
         Leetcode leetcode = new Leetcode();
-        int[][] arr = {{1, 0, 1, 0, 0}, {1, 0, 1, 1, 1}, {1, 1, 1, 1, 1}};
-//        int[] arr = {2, 1, 5, 6, 2, 3};
+//        int[][] arr = {{1, 0, 1, 0, 0}, {1, 0, 1, 1, 1}, {1, 1, 1, 1, 1}};
+        int[] arr = {2, 3, 4};
+        int[] arr2 = {3, 1, 2};
         List<List<Integer>> in = new ArrayList<>();
         List<Integer> tmp1 = new ArrayList<>();
         tmp1.add(2);
@@ -265,7 +365,6 @@ public class Leetcode {
         in.add(tmp1);
         in.add(tmp2);
         in.add(tmp3);
-        leetcode.minimumTotal(in);
-        System.out.println(leetcode.maximalRectangle(arr));
+        leetcode.rob(arr);
     }
 }
