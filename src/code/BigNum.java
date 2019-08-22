@@ -21,12 +21,32 @@ public class BigNum {
                 ret[i + j + 1] = (ret[i + j + 1] + x * y) % 10;
             }
         }
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < ret.length; i++) {
             if (i == 0 && ret[i] == 0) continue;
-            s += ret[i];
+            s.append(ret[i]);
         }
-        System.out.println(s);
+        System.out.println(s.toString());
+        add(num1, num2);
+    }
+
+    public static void add(String a, String b) {
+        int la = a.length();
+        int lb = b.length();
+        int length = Math.max(la, lb);
+        int[] res = new int[length + 1];
+        for (int i = 0; i < length; i++) {
+            int x = i < la ? a.charAt(la - i - 1) - '0' : 0;
+            int y = i < lb ? b.charAt(lb - i - 1) - '0' : 0;
+            res[length - i - 1] += (res[length - i] + x + y) / 10;
+            res[length - i] = (res[length - i] + x + y) % 10;
+        }
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < res.length; i++) {
+            if (i == 0 && res[i] == 0) continue;
+            s.append(res[i]);
+        }
+        System.out.println(s.toString());
     }
 
 }

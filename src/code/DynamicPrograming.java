@@ -1,6 +1,8 @@
 package code;
 
 
+import java.util.Arrays;
+
 /**
  * @author yang
  * @date 2019/7/2 23:42
@@ -9,24 +11,21 @@ public class DynamicPrograming {
 
     /**
      * 01背包
-     *
-     * @param W
-     * @param N
-     * @param weights
-     * @param values
-     * @return
      */
-    public static int knapsack(int W, int N, int[] weights, int[] values) {
-        int[] dp = new int[W + 1];
-        for (int i = 1; i <= N; i++) {
-            int w = weights[i - 1], v = values[i - 1];
-            for (int j = W; j >= 1; j--) {
-                if (j >= w) {
-                    dp[j] = Math.max(dp[j], dp[j - w] + v);
+    public static int knapsack(int w, int[] weights, int[] values) {
+        int[][] dp = new int[weights.length + 1][w + 1];
+        for (int i = 1; i <= weights.length; i++) {
+            int wi = weights[i - 1];
+            int vi = values[i - 1];
+            for (int j = 1; j <= w; j++) {
+                if (wi <= j) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - wi] + vi);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
-        return dp[W];
+        return dp[weights.length][w];
     }
 
     /**
@@ -83,12 +82,76 @@ public class DynamicPrograming {
         return dp[n1][n2];
     }
 
+    private static int minUp(int[] arr) {
+        int[] dp = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[i]) {
+                    dp[i] = Math.max(dp[j] + 1, dp[i]);
+                }
+            }
+        }
+        int max = 0;
+        for (int i : dp) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 找零钱
+     *
+     * @param coins
+     * @param amount
+     * @return
+     */
+    public int coinChange(int[] coins, int amount) {
+        if (amount == 0 || coins == null || coins.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] == amount ? -1 : dp[amount];
+    }
+
+    /**
+     * 找零钱总数
+     *
+     * @param amount
+     * @param coins
+     * @return
+     */
+    public int change(int amount, int[] coins) {
+        if (amount == 0 || coins == null || coins.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] += dp[i - coin];
+            }
+        }
+        return dp[amount];
+    }
 
     public static void main(String[] args) {
-        int[] w = {1, 2, 3};
+        int[] w = {1, 2, 5};
         int[] v = {6, 10, 12};
         int[] arr = {6, 10, 1, 2, 3, 12};
         DynamicPrograming dynamicPrograming = new DynamicPrograming();
+        System.out.println(dynamicPrograming.coinChange(w, 16));
     }
 
 }
