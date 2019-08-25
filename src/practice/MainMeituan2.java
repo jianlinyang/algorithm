@@ -1,0 +1,71 @@
+package practice;
+
+import java.util.*;
+
+/**
+ * @author yang
+ * @date 2019/8/22 16:16
+ */
+public class MainMeituan2 {
+    private static HashMap<Character, Integer> map = new HashMap<>();
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+//        String s = scan.nextLine();
+        String s = "rt rwf er et rft";
+        solution(s);
+    }
+
+    private static void solution(String s) {
+        String[] s1 = s.split(" ");
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i), i);
+        }
+        char[] res = new char[map.size() - 1];
+        boolean[][] flag = new boolean[res.length][res.length];
+        int i = 0;
+        for (Character character : map.keySet()) {
+            if (character != ' ') {
+                res[i++] = character;
+                map.put(character, i - 1);
+            }
+        }
+        for (String s2 : s1) {
+            for (int j = 1; j < s2.length(); j++) {
+                Integer sj = map.get(s2.charAt(j - 1));
+                Integer ej = map.get(s2.charAt(j));
+                if (sj > ej) {
+                    if (flag[ej][sj]) {
+                        System.out.println("inviolate");
+                        return;
+                    }
+                    swap2(sj, ej, res);
+                    flag[ej][sj] = true;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(res));
+    }
+
+    private static void swap1(int e, int s, char[] chars) {
+        char tmp = chars[e];
+        while (s < e) {
+            chars[e] = chars[e - 1];
+            map.put(chars[e], e);
+            e--;
+        }
+        chars[s] = tmp;
+        map.put(chars[s], s);
+    }
+
+    private static void swap2(int e, int s, char[] chars) {
+        char tmp = chars[s];
+        while (s < e) {
+            chars[s] = chars[s + 1];
+            map.put(chars[s], s);
+            s++;
+        }
+        chars[e] = tmp;
+        map.put(chars[e], e);
+    }
+}

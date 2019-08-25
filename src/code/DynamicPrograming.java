@@ -146,12 +146,56 @@ public class DynamicPrograming {
         return dp[amount];
     }
 
+    /**
+     * 最长上升子序列
+     *
+     * @param nums
+     * @return
+     */
+    public int lengthOfLIS(int[] nums) {
+        int[] dp = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j]);
+                }
+            }
+            dp[i] += 1;
+        }
+        int res = 1;
+        for (int i : dp) {
+            res = Math.max(i, res);
+        }
+        return res;
+    }
+
+    /**
+     * 找零钱总数
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int combinationSum4(int[] coins, int amount) {
+        if (amount == 0 || coins == null || coins.length == 0) {
+            return 0;
+        }
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= amount; i++) {
+            for (int coin : coins) {
+                if (i >= coin) dp[i] += dp[i - coin];
+            }
+        }
+        return dp[amount];
+    }
+
     public static void main(String[] args) {
         int[] w = {1, 2, 5};
         int[] v = {6, 10, 12};
         int[] arr = {6, 10, 1, 2, 3, 12};
         DynamicPrograming dynamicPrograming = new DynamicPrograming();
-        System.out.println(dynamicPrograming.coinChange(w, 16));
+        System.out.println(dynamicPrograming.lengthOfLIS(arr));
     }
 
 }

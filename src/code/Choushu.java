@@ -1,6 +1,6 @@
 package code;
 
-public class Main {
+public class Choushu {
 
     public int solution(int index) {
         int i7 = 1, i3 = 1, i5 = 1;
@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         int[] ints = {4, 5, 1, 6, 2, 7, 3, 8};
-        Main main = new Main();
+        Choushu main = new Choushu();
         System.out.println(main.solution(1000));
     }
 }
