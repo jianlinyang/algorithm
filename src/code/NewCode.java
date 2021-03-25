@@ -1212,7 +1212,7 @@ public class NewCode {
         NewCode solution1 = new NewCode();
         int[][] arr1 = {{1, 2, 3}, {3, 4, 5}, {5, 6, 7}};
         String s = "abcdsadasf";
-        String m = "cdas";
+        String m = "abc";
         ListNode listNode = new ListNode(1);
         ListNode listNode2 = new ListNode(2);
         ListNode listNode3 = new ListNode(3);
@@ -1229,6 +1229,50 @@ public class NewCode {
         listNode4.next = listNode5;
         listNode5.next = listNode6;
         listNode6.next = listNode7;
-        System.out.println(solution1.match(s, m));
+        ArrayList<String> permutation = solution1.Permutation(m);
+//        System.out.println(permutation.toString());
+        char[] cs = {'a', 'b', 'c'};
+        int length = cs.length;
+        recursionSwap(cs, 0, length);
+    }
+
+    private static void recursionSwap(char[] cs, int start, int length) {
+        if (start >= length - 1) {
+            print(cs);
+            return;
+        }
+        for (int i = start; i < length; i++) {
+            swap(cs, start, i);
+            recursionSwap(cs, start + 1, length);
+            swap(cs, start, i);
+        }
+    }
+
+    public static void swap(char[] cs, int index1, int index2) {
+        char temp = cs[index1];
+        cs[index1] = cs[index2];
+        cs[index2] = temp;
+    }
+
+    private static void PermutationHelper(char[] chars, int i, ArrayList<String> list) {
+        if (i == chars.length - 1) {//递归出口：遍历到数组最后一个字符了
+            String val = String.valueOf(chars);//将字符数组变成字符串
+            if (!list.contains(val)) {//如果list集合中不包含这个字符串，则添加（避免重复）
+                list.add(val);
+            }
+        } else {
+            for (int j = i; j < chars.length; j++) {
+                swap(chars, i, j);//交换数组第i个字符和第j个字符
+                PermutationHelper(chars, i + 1, list);
+                swap(chars, i, j);//再次交换数组第i个字符和第j个字符，保证回到此次for循环前字符数组的状态，不影响字符数组进行下一次for循环
+            }
+        }
+    }
+
+    private static void print(char[] cs) {
+        for (int i = 0; i < cs.length; i++) {
+            System.out.print(cs[i]);
+        }
+        System.out.println();
     }
 }
